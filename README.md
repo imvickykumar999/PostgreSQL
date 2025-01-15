@@ -1,53 +1,70 @@
-# `PostgreSQL Installation`:
+To use PostgreSQL as the database in your Django project instead of the default SQLite, follow these steps:
 
-   - `Windows` : https://www.postgresql.org/download/
-   - `Ubuntu` : https://www.postgresql.org/download/linux/ubuntu/
+---
 
-># `Auth-Error`:
->![image](https://github.com/user-attachments/assets/63aa7855-d8c4-41bb-ace3-d7ced94d242e)
-
-The error message indicates that the authentication for the PostgreSQL user "postgres" has failed. This typically occurs due to incorrect username or password during the setup process.
-
-      Here’s how to resolve this issue:
-
-### 1. **Verify the Password**
-   - Ensure you are entering the correct password for the `postgres` user. If you set a password during the PostgreSQL installation, it must match.
-
-### 2. **Reset the Password**
-   If you don’t remember the password, you can reset it:
-   - `C:\Program Files\PostgreSQL\<version>\data\pg_hba.conf`
-   - Locate the `pg_hba.conf` file, typically found in the PostgreSQL data directory.
-   - Change the authentication method for the `postgres` user to `trust`:
-   
+### **1. Install the PostgreSQL Driver**
+Install the `psycopg2` library, which allows Django to connect to PostgreSQL:
+```bash
+pip install psycopg2-binary
 ```
-local   all   postgres   trust
-host    all   all       127.0.0.1/32   trust
-host    all   all       ::1/128        trust
+
+---
+
+### **2. Update the `DATABASES` Configuration in `settings.py`**
+Open your Django project's `settings.py` file and modify the `DATABASES` configuration as follows:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_database_name',  # Replace with your PostgreSQL database name
+        'USER': 'your_postgres_username',  # Replace with your PostgreSQL username
+        'PASSWORD': 'your_postgres_password',  # Replace with your PostgreSQL password
+        'HOST': '127.0.0.1',  # Use 'localhost' or your database server's IP
+        'PORT': '5432',  # Default PostgreSQL port
+    }
+}
 ```
-     
-### 3. **Add PostgreSQL to System PATH**
-   - Find the `bin` directory in the PostgreSQL installation folder (e.g., `C:\Program Files\PostgreSQL\<version>\bin`).
-   - Add it to your system's PATH environment variable:
-     1. Right-click on "This PC" or "My Computer" and select "Properties."
-     2. Click on "Advanced system settings" → "Environment Variables."
-     3. Under "System Variables," find `Path` and click "Edit."
-     4. Click "New" and paste the path to the `bin` directory.
-     5. Click "OK" to save the changes.
-   - Restart the Command Prompt to apply the changes.
 
-   - Restart the PostgreSQL service.
-   - Log in without a password:
-     ```bash
-     psql -U postgres
-     ```
-   - Set a new password:
-     ```sql
-     ALTER USER postgres PASSWORD 'newpassword';
-     ```
-   - Revert the `pg_hba.conf` file authentication method back to `md5` or `scram-sha-256` as it was initially, and restart the service.
+---
 
-### 4. **Check the Port**
-   - Confirm that PostgreSQL is running on port `5432`. If not, update the setup tool to use the correct port.
+### **3. Create the PostgreSQL Database**
+Before running your Django project, ensure the PostgreSQL database is created:
+1. Open the `psql` shell:
+   ```bash
+   psql -U postgres
+   ```
+2. Create the database:
+   ```sql
+   CREATE DATABASE your_database_name;
+   ```
+3. Grant privileges to your user:
+   ```sql
+   GRANT ALL PRIVILEGES ON DATABASE your_database_name TO your_postgres_username;
+   ```
 
-### 5. **Permissions**
-   - Ensure the PostgreSQL service is running and the `postgres` user has sufficient permissions.
+---
+
+### **4. Apply Migrations**
+Run Django migrations to set up the database schema in PostgreSQL:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+### **5. Test the Configuration**
+Run the Django development server to ensure everything is working:
+```bash
+python manage.py runserver
+```
+
+If everything is configured correctly, Django will now use PostgreSQL instead of SQLite.
+
+---
+
+### **6. Optional: Install pgAdmin (GUI Tool)**
+If you prefer a GUI to manage your PostgreSQL database, you can install pgAdmin:
+- Download from [pgAdmin's official website](https://www.pgadmin.org/).
+- Use it to manage your PostgreSQL database visually.
