@@ -1,6 +1,14 @@
+# `PostgreSQL Installation`:
+
+   - `Windows` : https://www.postgresql.org/download/
+   - `Ubuntu` : https://www.postgresql.org/download/linux/ubuntu/
+
+># `Auth-Error`:
+>![image](https://github.com/user-attachments/assets/63aa7855-d8c4-41bb-ace3-d7ced94d242e)
+
 The error message indicates that the authentication for the PostgreSQL user "postgres" has failed. This typically occurs due to incorrect username or password during the setup process.
 
-Here’s how to resolve this issue:
+      Here’s how to resolve this issue:
 
 ### 1. **Verify the Password**
    - Ensure you are entering the correct password for the `postgres` user. If you set a password during the PostgreSQL installation, it must match.
@@ -11,11 +19,11 @@ Here’s how to resolve this issue:
    - Locate the `pg_hba.conf` file, typically found in the PostgreSQL data directory.
    - Change the authentication method for the `postgres` user to `trust`:
    
-     ```
-    local   all   postgres   trust
-    host    all   all       127.0.0.1/32   trust
-    host    all   all       ::1/128        trust
-     ```
+```
+local   all   postgres   trust
+host    all   all       127.0.0.1/32   trust
+host    all   all       ::1/128        trust
+```
      
 ### 3. **Add PostgreSQL to System PATH**
    - Find the `bin` directory in the PostgreSQL installation folder (e.g., `C:\Program Files\PostgreSQL\<version>\bin`).
@@ -43,5 +51,3 @@ Here’s how to resolve this issue:
 
 ### 5. **Permissions**
    - Ensure the PostgreSQL service is running and the `postgres` user has sufficient permissions.
-
-If the issue persists, let me know the exact steps you're following, and I’ll assist further.
