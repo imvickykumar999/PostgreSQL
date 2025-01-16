@@ -43,16 +43,36 @@ cd myproject
 ### **4. Configure PostgreSQL in `settings.py`**
 Open the `settings.py` file and configure the `DATABASES` setting to use PostgreSQL:
 ```python
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myprojectdb',  # Database name
-        'USER': 'myuser',  # Database user
-        'PASSWORD': 'mypassword',  # Database password
-        'HOST': '127.0.0.1',  # Localhost
-        'PORT': '5432',  # Default PostgreSQL port
+        'NAME': 'sampleproject',       # Replace with your database name
+        'USER': 'Vicky',               # Replace with your database user
+        'PASSWORD': 'abcd4321H',       # Replace with your database user's password
+        'HOST': 'localhost',           # Set to the database host, e.g., '127.0.0.1'
+        'PORT': '5432',                # Default PostgreSQL port
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # MySQL database engine
+#         'NAME': 'sampleproject',              # Replace with your database name
+#         'USER': 'Vicky',                      # Replace with your database user
+#         'PASSWORD': 'abcd4321H',              # Replace with your database user's password
+#         'HOST': 'localhost',                  # Set to the database host, e.g., '127.0.0.1'
+#         'PORT': '3306',                       # Default MySQL port
+#     }
+# }
 ```
 
 ---
